@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import ChatbotWidget from "@/components/chatbot-widget";
 import SiteFooter from "@/components/site-footer";
 import SiteHeader from "@/components/site-header";
+import DevelopmentBanner from "@/components/development-banner";
 import Script from "next/script";
 import "./globals.css";
 
@@ -43,6 +44,7 @@ export default function RootLayout({
           `}
         </Script>
         <div className="flex min-h-screen flex-col">
+          <DevelopmentBanner />
           <SiteHeader />
           <main className="mx-auto flex w-full max-w-6xl flex-1 px-6 py-10">
             {children}
