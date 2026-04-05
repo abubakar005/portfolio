@@ -14,6 +14,7 @@ export default function ContactPage() {
         </p>
 
         <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_1.7fr]">
+          {/*  
           <div className="space-y-4">
             <div className="flex items-center gap-3 text-slate-700 dark:text-slate-200">
               <Mail className="h-4 w-4 text-indigo-500" />
@@ -24,7 +25,7 @@ export default function ContactPage() {
               WhatsApp: +92 300 6416478
             </div>
           </div>
-
+          */}
           <ContactForm />
         </div>
       </AnimatedSection>
