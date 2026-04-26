@@ -1,89 +1,97 @@
 import AnimatedSection from "@/components/animated-section";
-import { ApigeeCertArt, UipathCertArt } from "@/components/certification-art";
-import { Award } from "lucide-react";
-import type { ComponentType } from "react";
+import PageIntro from "@/components/page-intro";
+import { createMetadata } from "@/lib/metadata";
+import { certifications, siteContent } from "@/lib/site-content";
+import { Award, CalendarDays, GraduationCap } from "lucide-react";
+import Image from "next/image";
 
-const certifications: {
-  title: string;
-  issuer: string;
-  track: string;
-  date: string;
-  bullets: string[];
-  imageAlt: string;
-  Art: ComponentType<{ className?: string; "aria-label"?: string }>;
-}[] = [
-  {
-    title: "Apigee API Engineer",
-    issuer: "Google",
-    track: "APIs Development",
-    date: "December 2018",
-    bullets: [
-      "Proficient in Apigee APIs development, installation, and monetization.",
-    ],
-    imageAlt: "Apigee API Engineer — Google Cloud certification graphic",
-    Art: ApigeeCertArt,
-  },
-  {
-    title: "RPA Certified",
-    issuer: "UiPath",
-    track: "Robotics",
-    date: "June 2018",
-    bullets: ["Robotic Process Automation certified developer"],
-    imageAlt: "UiPath RPA certification graphic",
-    Art: UipathCertArt,
-  },
-];
+export const metadata = createMetadata(siteContent.seo.pages.certifications);
 
 export default function CertificationsPage() {
   return (
-    <div className="w-full py-8">
-      <AnimatedSection className="mb-10 max-w-3xl">
-        <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-1 text-xs font-semibold tracking-wide text-slate-600 uppercase dark:border-slate-700 dark:bg-slate-900/60 dark:text-slate-300">
-          <Award className="h-3.5 w-3.5 text-indigo-500" />
-          Credentials
-        </div>
-        <h1 className="text-4xl font-semibold tracking-tight text-slate-900 dark:text-white">
-          Certifications
-        </h1>
-        <p className="mt-4 text-lg text-slate-600 dark:text-slate-300">
-          Professional certifications earned across API platforms and automation.
-        </p>
+    <div className="w-full space-y-16 py-10 sm:py-14">
+      <AnimatedSection>
+        <PageIntro {...siteContent.certificationsPage.intro} />
       </AnimatedSection>
 
-      <div className="grid gap-8 lg:grid-cols-2">
-        {certifications.map((cert, index) => {
-          const Art = cert.Art;
-          return (
-            <AnimatedSection
-              key={cert.title}
-              delay={index * 0.08}
-              className="overflow-hidden rounded-2xl border border-slate-200 bg-white/80 shadow-sm dark:border-slate-800 dark:bg-slate-900/60"
-            >
-              <div className="flex w-full items-center justify-center bg-slate-100 p-4 dark:bg-slate-950">
-                <Art
-                  className="h-auto w-full max-w-full"
-                  aria-label={cert.imageAlt}
-                />
-              </div>
-              <div className="space-y-4 p-6">
-                <div>
-                  <h2 className="text-xl font-semibold text-slate-900 dark:text-slate-100">
-                    {cert.title}
-                  </h2>
-                  <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-                    {cert.issuer} · {cert.track} · {cert.date}
-                  </p>
+      <section className="grid gap-8 lg:grid-cols-2">
+        {certifications.map((cert, index) => (
+          <AnimatedSection key={cert.title} delay={index * 0.06}>
+            <article className="card-panel hover-panel overflow-hidden">
+              <div className="border-b border-[color:var(--border)] bg-[color:var(--surface)]/80 px-6 py-7 dark:bg-slate-950/85">
+                <div className="rounded-3xl border border-[color:var(--border)] bg-white/90 px-6 py-6 shadow-sm dark:bg-slate-950/75">
+                  <Image
+                    src={
+                      cert.logo === "google-cloud"
+                        ? "/certifications/google-cloud-apigee.svg"
+                        : "/certifications/uipath.svg"
+                    }
+                    alt={cert.imageAlt}
+                    width={320}
+                    height={84}
+                    className="h-14 w-auto max-w-full"
+                  />
                 </div>
-                <ul className="list-inside list-disc space-y-1.5 text-slate-600 dark:text-slate-300">
-                  {cert.bullets.map((item) => (
-                    <li key={item}>{item}</li>
+              </div>
+
+              <div className="space-y-5 p-6 sm:p-7">
+                <div className="flex flex-wrap items-start justify-between gap-4">
+                  <div>
+                    <p className="inline-flex items-center gap-2 rounded-full border border-[color:var(--border)] bg-white/80 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-[color:var(--muted)] dark:bg-slate-950/70">
+                      <Award className="h-3.5 w-3.5 text-indigo-500" />
+                      {siteContent.ui.labels.certification}
+                    </p>
+                    <h2 className="mt-4 text-2xl font-semibold tracking-tight text-[color:var(--foreground)]">
+                      {cert.title}
+                    </h2>
+                    <p className="mt-2 text-sm text-[color:var(--muted)]">
+                      {cert.issuer} · {cert.track}
+                    </p>
+                  </div>
+                  <span className="inline-flex items-center gap-2 rounded-full border border-[color:var(--border)] bg-[color:var(--surface)]/70 px-3 py-1.5 text-xs font-medium text-[color:var(--foreground)]">
+                    <CalendarDays className="h-3.5 w-3.5 text-indigo-500" />
+                    {cert.date}
+                  </span>
+                </div>
+
+                <p className="leading-7 text-[color:var(--muted)]">{cert.summary}</p>
+
+                <ul className="space-y-3 text-[color:var(--muted)]">
+                  {cert.bullets.map((bullet) => (
+                    <li key={bullet} className="flex gap-3 leading-7">
+                      <span className="mt-2 h-2 w-2 rounded-full bg-indigo-500" />
+                      <span>{bullet}</span>
+                    </li>
                   ))}
                 </ul>
               </div>
-            </AnimatedSection>
-          );
-        })}
-      </div>
+            </article>
+          </AnimatedSection>
+        ))}
+      </section>
+
+      <AnimatedSection>
+        <section className="card-panel grid gap-6 p-8 sm:p-10 lg:grid-cols-[0.9fr_1.1fr]">
+          <div className="flex items-start gap-4">
+            <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-300">
+              <GraduationCap className="h-5 w-5" />
+            </span>
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[color:var(--muted)]">
+                {siteContent.ui.labels.ongoingLearning}
+              </p>
+              <h2 className="mt-3 text-3xl font-semibold tracking-tight text-[color:var(--foreground)]">
+                {siteContent.certificationsPage.ongoingLearning.title}
+              </h2>
+            </div>
+          </div>
+          <div className="space-y-4 leading-8 text-[color:var(--muted)]">
+            {siteContent.certificationsPage.ongoingLearning.paragraphs.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
+          </div>
+        </section>
+      </AnimatedSection>
     </div>
   );
 }

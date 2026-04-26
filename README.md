@@ -1,36 +1,128 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# My Portfolio
+
+A production-focused portfolio built with Next.js App Router, TypeScript, Tailwind CSS, and Framer Motion.
+
+## Highlights
+
+- Modern, responsive portfolio for a Senior Software Developer / Software Architect profile
+- Dedicated pages for Home, About, Skills, Projects, Certifications, Contact, and a custom 404 page
+- Light and dark mode with a persistent theme toggle
+- Rule-based chatbot with editable Q&A sourced from `lib/site-content.ts`
+- WhatsApp contact option with a floating action button
+- Branded logo, favicon set, polished app icons, and social preview image
+- SEO-focused metadata for each page
+- robots.txt, sitemap.xml, web manifest, structured data, and social metadata
+- Accessible navigation, skip link, focus states, and improved contact form UX
+- Resend SMTP-ready contact flow with Reply-To support
 
 ## Getting Started
 
-First, run the development server:
+Use Node.js 20.9 or newer.
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000` in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Create a `.env.local` file for production metadata, WhatsApp, and email delivery.
 
-## Learn More
+```bash
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+NEXT_PUBLIC_WHATSAPP_NUMBER=
+NEXT_PUBLIC_WHATSAPP_MESSAGE=Hi...
 
-To learn more about Next.js, take a look at the following resources:
+RESEND_API_KEY=
+RESEND_FROM_EMAIL=
+CONTACT_TO_EMAIL=
+CONTACT_FROM_NAME=
+HEALTHCHECK_TOKEN=
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Optional legacy SMTP fallback
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+If you want to keep using a generic SMTP server instead of Resend, these variables are still supported:
 
-## Deploy on Vercel
+```bash
+SMTP_HOST=
+SMTP_PORT=587
+SMTP_USER=
+SMTP_PASS=
+CONTACT_FROM_EMAIL=
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Contact Form Notes
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The contact form posts to `/api/contact`.
+
+The preferred setup uses Resend SMTP:
+
+- host: `smtp.resend.com`
+- port: `465`
+- username: `resend`
+- password: `RESEND_API_KEY`
+
+The portfolio sends mail from `RESEND_FROM_EMAIL` and sets the visitor email as `Reply-To`, so replying in your inbox goes to the actual sender.
+
+If neither Resend nor legacy SMTP credentials are configured, the API returns a configuration error instead of pretending the email was sent.
+
+## WhatsApp Button
+
+The WhatsApp button is shown only when `NEXT_PUBLIC_WHATSAPP_NUMBER` is set.
+
+Use digits only or a standard international number. The app converts it to a `wa.me` link automatically.
+
+## Customization
+
+Most site content lives in `lib/site-content.ts`.
+
+`lib/chatbot-data.ts` now only reads and resolves the chatbot entries from that central content file.
+
+That makes it easy to update:
+
+- personal summary
+- navigation items
+- skill groups
+- projects
+- certifications
+- chatbot questions and answers
+- contact details
+- social profile URLs
+
+## Branding and SEO Assets
+
+The following public assets are already included:
+
+- `public/branding/abubakar-mark.svg`
+- `public/branding/favicon.svg`
+- `public/og-image.png`
+- `public/icon-192.png`
+- `public/icon-512.png`
+- `public/icon-maskable-512.png`
+- `public/apple-touch-icon.png`
+- `public/certifications/google-cloud-apigee.svg`
+- `public/certifications/uipath.svg`
+
+## Deployment
+
+This project uses `output: "standalone"`, which makes it easier to deploy on Node.js hosts and in Docker-style environments.
+
+Use these checks before deploying:
+
+```bash
+npm run typecheck
+npm run build
+```
+
+Then either:
+
+```bash
+npm start
+```
+
+or deploy the standalone output from `.next/standalone`.
+
+For best SEO results, set `NEXT_PUBLIC_SITE_URL` to your real production domain.

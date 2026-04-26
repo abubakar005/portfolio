@@ -1,36 +1,103 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import type { ReactNode } from "react";
+import { Inter, JetBrains_Mono, Manrope } from "next/font/google";
 import ChatbotWidget from "@/components/chatbot-widget";
 import SiteFooter from "@/components/site-footer";
 import SiteHeader from "@/components/site-header";
-import DevelopmentBanner from "@/components/development-banner";
+import StructuredData from "@/components/structured-data";
+import { getSiteUrl } from "@/lib/metadata";
+import { siteConfig } from "@/lib/site-content";
 import Script from "next/script";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const bodyFont = Inter({
+  variable: "--font-body",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const headingFont = Manrope({
+  variable: "--font-heading",
   subsets: ["latin"],
 });
+
+const monoFont = JetBrains_Mono({
+  variable: "--font-mono",
+  subsets: ["latin"],
+});
+
+const siteUrl = getSiteUrl();
 
 export const metadata: Metadata = {
-  title: "Abubakar | Senior Software Engineer",
-  description: "A premium personal portfolio built with Next.js and Tailwind CSS.",
+  metadataBase: siteUrl,
+  title: `${siteConfig.name} | ${siteConfig.title}`,
+  description: siteConfig.description,
+  applicationName: `${siteConfig.name} Portfolio`,
+  authors: [{ name: siteConfig.name }],
+  creator: siteConfig.name,
+  publisher: siteConfig.name,
+  keywords: siteConfig.keywords,
+  category: "technology",
+  alternates: {
+    canonical: "/",
+  },
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/branding/favicon.svg", type: "image/svg+xml" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+    shortcut: ["/favicon.ico"],
+  },
+  manifest: "/manifest.webmanifest",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: siteUrl,
+    siteName: `${siteConfig.name} Portfolio`,
+    title: `${siteConfig.name} | ${siteConfig.title}`,
+    description: siteConfig.description,
+    images: [
+      {
+        url: siteConfig.ogImage,
+        width: 1200,
+        height: 630,
+        alt: `${siteConfig.name} portfolio preview`,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${siteConfig.name} | ${siteConfig.title}`,
+    description: siteConfig.description,
+    images: [siteConfig.ogImage],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f6f7fb" },
+    { media: "(prefers-color-scheme: dark)", color: "#020617" },
+  ],
 };
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      suppressHydrationWarning
+      className={`${bodyFont.variable} ${headingFont.variable} ${monoFont.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-background text-foreground">
         <Script id="theme-init" strategy="beforeInteractive">
@@ -43,10 +110,16 @@ export default function RootLayout({
             })();
           `}
         </Script>
+        <StructuredData />
+        <a href="#content" className="skip-link">
+          Skip to content
+        </a>
         <div className="flex min-h-screen flex-col">
-          <DevelopmentBanner />
           <SiteHeader />
-          <main className="mx-auto flex w-full max-w-6xl flex-1 px-6 py-10">
+          <main
+            id="content"
+            className="mx-auto flex w-full max-w-7xl flex-1 px-5 pb-20 sm:px-8"
+          >
             {children}
           </main>
           <SiteFooter />

@@ -1,4 +1,6 @@
-import nodemailer from "nodemailer";
+import { getEmailServiceConfig } from "@/lib/email";
+
+export const runtime = "nodejs";
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
@@ -8,37 +10,28 @@ export async function GET(req: Request) {
     return Response.json({ ok: false, error: "Unauthorized" }, { status: 401 });
   }
 
-  const {
-    SMTP_HOST,
-    SMTP_PORT,
-    SMTP_USER,
-    SMTP_PASS,
-    CONTACT_TO_EMAIL = "abubakar.cs@gmail.com",
-    CONTACT_FROM_EMAIL,
-  } = process.env;
+  const emailService = getEmailServiceConfig();
 
-  if (!SMTP_HOST || !SMTP_PORT || !SMTP_USER || !SMTP_PASS) {
+  if (!emailService) {
     return Response.json(
       { ok: false, error: "Email service not configured" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 
-  const port = Number(SMTP_PORT);
-  const transporter = nodemailer.createTransport({
-    host: SMTP_HOST,
-    port: Number.isFinite(port) ? port : 587,
-    secure: port === 465,
-    auth: { user: SMTP_USER, pass: SMTP_PASS },
-  });
-
-  await transporter.sendMail({
-    from: CONTACT_FROM_EMAIL || SMTP_USER,
-    to: CONTACT_TO_EMAIL,
-    subject: "Portfolio SMTP Health Check",
-    text: `Health check successful at ${new Date().toISOString()}`,
-  });
+  try {
+    await emailService.transporter.sendMail({
+      from: emailService.from,
+      to: emailService.to,
+      subject: "Portfolio Email Health Check",
+      text: `Health check successful at ${new Date().toISOString()}`,
+    });
+  } catch {
+    return Response.json(
+      { ok: false, error: "Failed to send health email" },
+      { status: 500 },
+    );
+  }
 
   return Response.json({ ok: true, message: "Health email sent." });
 }
-

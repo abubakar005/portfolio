@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none">
+  <defs>
+    <linearGradient id="ab-bg" x1="16" y1="12" x2="112" y2="116" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0f172a"/>
+      <stop offset="1" stop-color="#312e81"/>
+    </linearGradient>
+    <linearGradient id="ab-stroke" x1="22" y1="18" x2="106" y2="112" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ffffff" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#7dd3fc" stop-opacity="0.18"/>
+    </linearGradient>
+  </defs>
+  <rect x="8" y="8" width="112" height="112" rx="28" fill="url(#ab-bg)"/>
+  <rect x="14" y="14" width="100" height="100" rx="22" stroke="#ffffff" stroke-opacity="0.14" stroke-width="2"/>
+  <path d="M30 97L58 31L69 31L96 97H84L77.5 81.5H49L42.5 97H30ZM53 70H73L63 46L53 70Z" fill="#F8FAFC"/>
+  <path d="M82 31H89C100 31 107 37 107 46C107 52 104 57 97.5 59.5C105.5 61.5 110 66.5 110 74.5C110 85.5 101.5 93 88.5 93H82V31ZM90 43V55.5H92.5C98 55.5 101 53.2 101 48.5C101 44.8 98.4 43 93.5 43H90ZM90 67V81H94C100.8 81 104 78.7 104 73.8C104 69.2 100.8 67 94 67H90Z" fill="#7DD3FC"/>
+  <circle cx="96" cy="32" r="5.5" fill="#38BDF8"/>
+</svg>

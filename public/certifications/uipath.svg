@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 90" fill="none">
+  <rect x="0" y="16" width="56" height="56" rx="14" fill="#FA4616"/>
+  <path d="M16 31H25V49C25 54.5 28.4 58 34 58C39.6 58 43 54.5 43 49V31H52V49.5C52 60.7 44.5 67.5 34 67.5C23.5 67.5 16 60.7 16 49.5V31Z" fill="#ffffff"/>
+  <text x="74" y="53" font-family="Arial, Helvetica, sans-serif" font-size="38" font-weight="700" fill="#FA4616">UiPath</text>
+  <text x="76" y="72" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="500" fill="#475569">Automation certification</text>
+</svg>
