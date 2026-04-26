@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   authors: [{ name: siteConfig.name }],
   creator: siteConfig.name,
   publisher: siteConfig.name,
-  keywords: siteConfig.keywords,
+  keywords: [...siteConfig.keywords],
   category: "technology",
   alternates: {
     canonical: "/",
